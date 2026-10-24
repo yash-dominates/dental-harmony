@@ -1,0 +1,24 @@
+# Noida Dental Care
+
+> Modern dental clinic in Sector 62, Noida offering implants, braces, root canal, teeth whitening, smile design, and more. 10K+ happy patients across Noida, Greater Noida & Delhi NCR.
+
+Noida Dental Care is an ISO 9001:2015 certified dental practice founded in 2010. We focus on gentle, modern dentistry with transparent pricing and same-day appointments via WhatsApp at +91 79825 69724.
+
+## Pages
+
+- [Home](/#home): Overview of the clinic, services, and patient experience.
+- [Services](/#services): Featured dental treatments at a glance.
+- [About](/#about): Clinic story, certifications, and approach to care.
+- [Treatments](/#treatments): Full list of dental procedures offered.
+- [Our Team](/#team): Meet the dentists and specialists.
+- [Our Work](/#work): Before/after gallery of patient cases.
+- [Testimonials](/#testimonials): Patient reviews and video testimonials.
+- [Book Appointment](/#book): Schedule a visit or WhatsApp consultation.
+- [FAQ](/#faq): Common questions about treatments, pricing, and visits.
+- [Blog](/#blog): Articles on dental care and oral health.
+- [Location](/#location): Clinic address, map, and directions in Sector 62, Noida.
+
+## Optional
+
+- [Sitemap](/sitemap.xml)
+- [Robots](/robots.txt)
