@@ -1,15 +1,7 @@
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, CalendarDays, ChevronDown, ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { HERO_DOCTORS, HERO_PILLS, IMAGES } from "@/lib/data";
-
-const HEADLINE = ["A", "brighter", "smile,", "starts", "here."];
-
-const TealSparkle = ({ className }: { className?: string }) => (
-  <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" />
-  </svg>
-);
 
 const Hero = () => {
   const [doctorIdx, setDoctorIdx] = useState(0);
@@ -19,148 +11,149 @@ const Hero = () => {
     return () => clearInterval(t);
   }, []);
 
-  const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 600], [0, 75]);
-  const trustOpacity = useTransform(scrollY, [0, 180], [1, 0]);
-
   const doctor = HERO_DOCTORS[doctorIdx];
 
   return (
     <section
       id="home"
-      className="relative w-full overflow-hidden bg-navy min-h-[100vh] flex flex-col justify-between"
+      className="relative w-full overflow-hidden bg-navy min-h-screen min-h-[100dvh] flex flex-col justify-between"
     >
-      {/* Background image with subtle parallax & warm daylight lighting */}
-      <motion.div
-        style={{ y: bgY }}
-        className="absolute inset-0 w-full h-[115%] -top-[5%] pointer-events-none"
-      >
+      {/* BACKGROUND IMAGES (Mobile cropped vs Desktop widescreen) */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none">
+        {/* Mobile: Cropped photo of smiling patient and practitioner (Image 3) */}
         <img
-          src={IMAGES.heroBg}
-          alt="Modern dental clinic interior — Noida Dental Care"
+          src={IMAGES.heroBgMobile}
+          alt="Modern dental clinic consultation — Noida Dental Care"
           loading="eager"
           decoding="async"
           // @ts-expect-error - fetchpriority is a valid HTML attribute
           fetchpriority="high"
-          className="w-full h-full object-cover object-[74%_center] md:object-center"
-          style={{ filter: "contrast(1.05) saturate(1.1) brightness(0.88)" }}
+          className="md:hidden w-full h-full object-cover object-center"
         />
-      </motion.div>
 
-      {/* Cinematic gradient shade on the left for maximum text contrast */}
-      <div aria-hidden="true" className="hero-left-shade" />
+        {/* Desktop: Full wide dental clinic room (Image 5) */}
+        <img
+          src={IMAGES.heroBg}
+          alt="Modern dental clinic room interior — Noida Dental Care"
+          loading="eager"
+          decoding="async"
+          // @ts-expect-error - fetchpriority is a valid HTML attribute
+          fetchpriority="high"
+          className="hidden md:block w-full h-full object-cover object-center"
+          style={{ filter: "contrast(1.04) saturate(1.1) brightness(0.9)" }}
+        />
+      </div>
 
-      {/* Main Hero Content */}
+      {/* Cinematic gradient overlays */}
+      {/* Mobile: Soft top vignette for text readability, clear middle for patient face, gentle bottom tint */}
       <div
-        className="relative z-10 flex items-center min-h-[100vh] pt-24 sm:pt-28 md:pt-24 pb-16 sm:pb-20 md:pb-20"
-        style={{ contain: "layout", filter: "drop-shadow(0 1px 6px rgba(0,0,0,0.35))" }}
-      >
-        <div className="w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-12 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* LEFT COLUMN */}
+        aria-hidden="true"
+        className="md:hidden absolute inset-0 pointer-events-none z-[1]"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(8, 12, 22, 0.72) 0%, rgba(8, 12, 22, 0.45) 32%, rgba(8, 12, 22, 0.04) 52%, rgba(8, 12, 22, 0.45) 100%)",
+        }}
+      />
+      {/* Desktop: Soft left-shade */}
+      <div aria-hidden="true" className="hidden md:block hero-left-shade z-[1]" />
+
+      {/* HERO MAIN CONTENT */}
+      {/* On Mobile: Text starts at top (pt-24), keeping all copy in upper portion so patient face is unobstructed */}
+      {/* On Desktop: Centered vertically */}
+      <div className="relative z-10 w-full flex-1 flex flex-col justify-start md:justify-center pt-24 sm:pt-28 md:pt-0">
+        <div className="w-full max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* LEFT / MAIN TEXT COLUMN */}
           <div className="lg:col-span-7 max-w-2xl text-white relative z-20">
-            {/* Eyebrow Label matching Image 3 & 5 */}
+            {/* Eyebrow Label */}
             <motion.div
-              initial={{ opacity: 0, y: -8 }}
+              initial={{ opacity: 0, y: -6 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="inline-flex items-center gap-2 font-label text-xs uppercase tracking-[0.15em] text-white/90"
+              className="inline-flex items-center gap-2 font-label text-xs uppercase tracking-[0.16em] text-white/90"
             >
-              <TealSparkle className="w-3.5 h-3.5 text-teal" />
+              <Star className="w-3.5 h-3.5 fill-teal text-teal" />
               <span>Advanced Dental Care</span>
             </motion.div>
 
-            {/* Headline matching user requested image */}
-            <h1
+            {/* Headline matching Image 2 */}
+            <motion.h1
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
               className="font-heading italic text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-[1.08] tracking-[-0.02em] mt-3 sm:mt-4 md:mt-5"
               style={{
-                textShadow:
-                  "0 2px 14px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.35)",
+                textShadow: "0 2px 14px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.35)",
               }}
             >
-              {HEADLINE.map((word, i) => (
-                <motion.span
-                  key={word + i}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 + i * 0.08, ease: "easeOut" }}
-                  className="inline-block mr-2.5 sm:mr-3"
-                  style={{ willChange: "transform, opacity", transform: "translateZ(0)" }}
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </h1>
+              A brighter smile,<br />starts here.
+            </motion.h1>
 
-            {/* Subheading matching Image 3 */}
+            {/* Subheading matching Image 2 */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
-              className="font-body font-normal text-white/95 text-base sm:text-lg max-w-md sm:max-w-lg mt-3 sm:mt-4 leading-relaxed"
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="font-body font-normal text-white/90 text-sm sm:text-base md:text-lg max-w-xs sm:max-w-md md:max-w-lg mt-2.5 sm:mt-3.5 md:mt-4 leading-relaxed"
               style={{
-                willChange: "opacity",
-                transform: "translateZ(0)",
                 textShadow: "0 1px 8px rgba(0,0,0,0.45)",
               }}
             >
-              Expert dental care for every age, delivered with comfort, confidence, and trust.
+              Expert dental care for every age, delivered with comfort and confidence.
             </motion.p>
 
-            {/* CTA Group: Booking Button immediately visible + Explore Link */}
+            {/* CTA Group: Book an appointment + Explore our services (stacked on mobile, inline on desktop) */}
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
-              className="flex flex-wrap items-center gap-4 sm:gap-6 mt-6 sm:mt-7"
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-col sm:flex-row sm:items-center items-start gap-3 sm:gap-6 mt-5 sm:mt-6 md:mt-7"
             >
               <a
                 href="#book"
-                className="btn-primary inline-flex items-center gap-2 rounded-full px-6 sm:px-7 py-3 font-label text-sm text-white shadow-lg shadow-teal/25 hover:shadow-teal/40 transition-all"
+                className="btn-primary inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-label text-sm text-white shadow-lg shadow-teal/25 hover:shadow-teal/40 transition-all w-fit"
               >
                 <CalendarDays className="w-4 h-4" />
-                <span>Book Appointment</span>
-                <ArrowRight className="w-4 h-4 ml-0.5" />
+                <span>Book an appointment</span>
               </a>
 
               <a
                 href="#services"
-                className="inline-flex items-center gap-1.5 font-label text-sm text-white/90 hover:text-white underline underline-offset-4 decoration-white/40 hover:decoration-teal transition-all py-1"
+                className="inline-flex items-center gap-1.5 font-label text-sm text-white/90 hover:text-white transition-all py-1 group w-fit"
               >
                 <span>Explore our services</span>
-                <ArrowRight className="w-4 h-4 text-teal" />
+                <ArrowRight className="w-4 h-4 text-teal transition-transform group-hover:translate-x-1" />
               </a>
             </motion.div>
 
-            {/* Social Proof: 3 real photographic patient portraits + Rating */}
+            {/* Desktop Social Proof (Photographic avatars, displayed on md+) */}
             <motion.div
-              style={{ opacity: trustOpacity }}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.85 }}
-              className="flex items-center gap-3.5 mt-7 sm:mt-8"
+              transition={{ duration: 0.6, delay: 0.75 }}
+              className="hidden md:flex items-center gap-3.5 mt-8"
             >
               <div className="flex -space-x-2.5">
                 <img
                   src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80"
                   alt="Happy Patient"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white shadow-md"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
                 />
                 <img
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80"
                   alt="Happy Patient"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white shadow-md"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
                 />
                 <img
                   src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&auto=format&fit=crop&q=80"
                   alt="Happy Patient"
-                  className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover border-2 border-white shadow-md"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md"
                 />
               </div>
 
-              <div className="h-7 w-px bg-white/20 hidden sm:block" />
+              <div className="h-7 w-px bg-white/20" />
 
               <div>
-                <p className="font-label text-xs sm:text-sm font-medium text-white">
+                <p className="font-label text-sm font-medium text-white">
                   10K+ Happy Patients
                 </p>
                 <p className="font-body text-xs text-white/80 flex items-center gap-1 mt-0.5">
@@ -171,12 +164,12 @@ const Hero = () => {
             </motion.div>
           </div>
 
-          {/* RIGHT COLUMN — Refined Doctor Card (Desktop) */}
+          {/* RIGHT COLUMN — Refined Doctor Card (Desktop only) */}
           <div className="lg:col-span-5 hidden md:flex justify-end relative z-10">
             <motion.div
               initial={{ y: 25, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.9 }}
+              transition={{ duration: 0.7, delay: 0.8 }}
               className="bg-black/35 backdrop-blur-xl border border-white/15 rounded-2xl p-3.5 w-60 md:w-64 shadow-[0_16px_40px_rgba(0,0,0,0.35)]"
             >
               <div className="relative overflow-hidden rounded-xl bg-teal-950/40">
@@ -224,44 +217,68 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Bottom Bar: Understated Treatment Chips (Desktop Only) + Center Scroll Indicator + Doctor Slide Count */}
-      <div className="absolute bottom-3 md:bottom-4 left-5 sm:px-8 lg:left-12 right-5 sm:px-8 lg:right-12 flex justify-between items-end pointer-events-none z-10">
-        {/* Left: Understated Popular Treatments Chips (Desktop Only, matching Image 5) */}
-        <div className="hidden md:flex flex-col gap-1.5 max-w-md pointer-events-auto">
-          <span className="font-label text-[10px] uppercase tracking-[0.16em] text-white/60 font-medium">
-            Popular Treatments
+      {/* MOBILE BOTTOM REVIEW SECTION (Image 2 - Exactly above scroll indicator, centered) */}
+      <div className="md:hidden absolute bottom-16 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 whitespace-nowrap pointer-events-auto">
+        <div className="flex -space-x-1.5">
+          <span className="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center font-label text-[9px] font-semibold border border-white/80 shadow-sm">
+            A
           </span>
-          <div className="flex flex-wrap gap-1.5">
-            {HERO_PILLS.map((pill) => (
-              <a
-                key={pill}
-                href="#services"
-                className="bg-white/10 hover:bg-white/20 active:scale-95 transition-all backdrop-blur-md border border-white/15 text-white/90 hover:text-white rounded-full px-3 py-1 font-label text-[11px] whitespace-nowrap shadow-sm hover:border-teal/40"
-              >
-                {pill}
-              </a>
-            ))}
-          </div>
+          <span className="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center font-label text-[9px] font-semibold border border-white/80 shadow-sm">
+            R
+          </span>
+          <span className="w-5 h-5 rounded-full bg-teal text-white flex items-center justify-center font-label text-[9px] font-semibold border border-white/80 shadow-sm">
+            S
+          </span>
         </div>
-
-        {/* Center: Animated Minimalist Scroll Indicator (Unobstructed) */}
-        <a
-          href="#services"
-          className="scroll-indicator pointer-events-auto"
-          aria-label="Scroll to next section"
+        <p
+          className="font-body text-xs text-white/95 tracking-tight font-medium"
+          style={{ textShadow: "0 1px 4px rgba(0,0,0,0.7)" }}
         >
-          <span className="scroll-indicator__mouse" aria-hidden="true">
-            <span className="scroll-indicator__dot" />
-          </span>
-          <span className="scroll-indicator__label text-[10px] tracking-widest text-white/70">Scroll</span>
-          <ChevronDown className="w-3.5 h-3.5 text-white/70" />
-        </a>
-
-        {/* Right: Dynamic doctor pagination counter */}
-        <p className="hidden md:block w-36 text-right font-label text-white/60 text-xs tracking-widest uppercase pointer-events-auto">
-          ‹ 0{doctorIdx + 1} ──────── 0{HERO_DOCTORS.length} ›
+          10K+ happy patients · 4.9<span className="text-amber-400">★</span> Google rating
         </p>
       </div>
+
+      {/* DESKTOP LOWER-LEFT: Understated Popular Treatments Chips (Image 5) */}
+      <div className="hidden md:flex absolute bottom-5 left-6 lg:left-12 z-20 flex-col gap-1.5 max-w-sm pointer-events-auto">
+        <span className="font-label text-[10px] uppercase tracking-[0.16em] text-white/60 font-medium">
+          Popular Treatments
+        </span>
+        <div className="flex flex-wrap gap-1.5">
+          {HERO_PILLS.map((pill) => (
+            <a
+              key={pill}
+              href="#services"
+              className="bg-white/10 hover:bg-white/20 active:scale-95 transition-all backdrop-blur-md border border-white/15 text-white/90 hover:text-white rounded-full px-3 py-1 font-label text-[11px] whitespace-nowrap shadow-sm hover:border-teal/40"
+            >
+              {pill}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* DEAD-CENTER HORIZONTAL SCROLL INDICATOR (100% Guaranteed Centered on ALL devices) */}
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center pointer-events-auto">
+        <a
+          href="#services"
+          className="flex flex-col items-center text-white/80 hover:text-white transition-colors cursor-pointer group"
+          aria-label="Scroll to next section"
+        >
+          {/* Pill mouse with animated chevron inside (Image 2 style) */}
+          <div className="w-5 h-8 rounded-full border border-white/60 flex items-center justify-center group-hover:border-teal transition-colors shadow-sm">
+            <motion.div
+              animate={{ y: [-3, 3, -3] }}
+              transition={{ repeat: Infinity, duration: 1.8, ease: "easeInOut" }}
+            >
+              <ChevronDown className="w-3.5 h-3.5 text-white/85" />
+            </motion.div>
+          </div>
+        </a>
+      </div>
+
+      {/* DESKTOP LOWER-RIGHT: Doctor slide counter (Image 5) */}
+      <p className="hidden md:block absolute bottom-5 right-6 lg:right-12 z-20 font-label text-white/60 text-xs tracking-widest uppercase pointer-events-auto">
+        ‹ 0{doctorIdx + 1} ──────── 0{HERO_DOCTORS.length} ›
+      </p>
     </section>
   );
 };

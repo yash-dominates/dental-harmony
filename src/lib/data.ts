@@ -1,4 +1,5 @@
 import heroClinicImg from "@/assets/hero-clinic.jpg";
+import heroClinicMobileImg from "@/assets/hero-clinic-mobile.png";
 
 // Cloudinary base helper — auto format & quality
 const C = (path: string) =>
@@ -11,6 +12,7 @@ export const sized = (url: string, w: number) =>
 export const IMAGES = {
   // New Cloudinary assets
   heroBg: heroClinicImg,
+  heroBgMobile: heroClinicMobileImg,
   aboutClinic: C("v1776827301/A_bright__clinical_202604220822_xywmzd.jpg"),
   teethCleaningFeature: C("v1776827227/teeth_cleaning_bdlqws.jpg"),
   veneersFeature: C("v1776827008/feature_veenerners_owezrz.jpg"),
