@@ -40,22 +40,27 @@ const cards = [
 
 const ServicesPreview = () => {
   return (
-    <section id="services" className="bg-white py-20 md:py-24 px-5 md:px-8 lg:px-16">
+    <section id="services" className="bg-ivory py-20 md:py-24 px-5 md:px-8 lg:px-16 transition-colors duration-500">
       <div className="max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 lg:gap-12">
         {/* LEFT */}
         <motion.div
-          initial={{ opacity: 0, x: -30 }}
+          initial={{ opacity: 0, x: -25 }}
           whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
           className="lg:col-span-5 lg:sticky lg:top-32 lg:self-start"
         >
-          <span className="section-badge">★ Our Features</span>
-          <h2 className="font-heading italic text-4xl lg:text-5xl text-navy leading-[1.1] mt-5 max-w-sm">
-            Discover Our Signature Dental Services
+          <div className="flex items-center gap-2.5 mb-3.5">
+            <span className="w-8 h-0.5 bg-teal rounded-full" />
+            <span className="font-label text-xs uppercase tracking-[0.16em] text-teal-deep font-semibold">
+              Our Services
+            </span>
+          </div>
+          <h2 className="font-heading italic text-4xl lg:text-5xl text-navy leading-[1.12] max-w-sm">
+            Complete Care for a Healthier Smile
           </h2>
-          <p className="font-body text-text-muted text-sm leading-relaxed mt-5 max-w-md">
-            Experience modern dental care delivered with comfort, precision, and attention to detail.
+          <p className="font-body text-text-muted text-sm sm:text-base leading-relaxed mt-4 max-w-md">
+            From routine checkups to advanced treatments, we're here for your complete dental wellness.
           </p>
 
           <div className="flex items-center gap-4 mt-8">
